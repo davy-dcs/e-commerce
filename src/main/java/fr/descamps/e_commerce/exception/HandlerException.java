@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class HandlerException {
-    @ExceptionHandler(value = ProductNotFoundException.class)
+    @ExceptionHandler(value = {ProductNotFoundException.class, ProductCartNotFoundException.class, CartNotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }

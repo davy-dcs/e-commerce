@@ -15,18 +15,19 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements IProductService {
     private final IProductRepository productRepository;
+    private final IProductMapper productMapper = IProductMapper.INSTANCE;
 
     @Override
     public List<ProductResponse> getAll(ProductType productType) {
         return (productType == null) ?
-            IProductMapper.INSTANCE.productsToProductResponseList(productRepository.findAll()) :
-                IProductMapper.INSTANCE.productsToProductResponseList(productRepository.findByType(productType));
+                productMapper.productsToProductResponseList(productRepository.findAll()) :
+                productMapper.productsToProductResponseList(productRepository.findByType(productType));
     }
 
     @Override
     public ProductResponse getByReference(String reference) {
         return productRepository.findByReference(reference)
-                .map(IProductMapper.INSTANCE::productToProductResponse)
+                .map(productMapper::productToProductResponse)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found by reference"));
     }
 }

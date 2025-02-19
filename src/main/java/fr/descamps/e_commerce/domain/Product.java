@@ -2,7 +2,6 @@ package fr.descamps.e_commerce.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
