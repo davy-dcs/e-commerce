@@ -20,7 +20,8 @@ public class ProductCartServiceImpl implements IProductCartService {
     @Override
     public ProductCartResponse updateQuantity(ProductCartRequest productCartRequest) {
         ProductCart productCart = productCartRepository.findByUuid(productCartRequest.uuid()).orElseThrow(() -> new ProductCartNotFoundException("ProductCart not found by uuid"));
-        return productCartMapper.update(productCartRequest, productCart);
+        productCartMapper.updateProductCart(productCartRequest, productCart);
+        return productCartMapper.productToProductCartResponse(productCart);
     }
 
     @Override

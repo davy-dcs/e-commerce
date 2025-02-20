@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements ICartService {
     private final ICartRepository cartRepository;
-   //private final ICartMapper cartMapper = ICartMapper.INSTANCE;
+    private final ICartMapper cartMapper = ICartMapper.INSTANCE;
 
     @Override
     public CartResponse updateStatus(CartRequest cartRequest) {
         Cart cart = cartRepository.findByUuid(cartRequest.uuid()).orElseThrow(() -> new CartNotFoundException("Cart not found by uuid"));
-        return ICartMapper.INSTANCE.update(cartRequest, cart);
+        cartMapper.updateCart(cartRequest, cart);
+        return cartMapper.cartToCartResponse(cart);
     }
 }
