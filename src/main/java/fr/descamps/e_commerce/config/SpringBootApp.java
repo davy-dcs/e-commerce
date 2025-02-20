@@ -1,9 +1,8 @@
 package fr.descamps.e_commerce.config;
 
 import fr.descamps.e_commerce.domain.*;
-import fr.descamps.e_commerce.repository.ICartRepository;
-import fr.descamps.e_commerce.repository.IProductCartRepository;
-import fr.descamps.e_commerce.repository.IProductRepository;
+import fr.descamps.e_commerce.repository.*;
+import fr.descamps.e_commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +17,9 @@ public class SpringBootApp {
     private final IProductRepository productRepository;
     private final ICartRepository cartRepository;
     private final IProductCartRepository productCartRepository;
+    private final IRoleRepository roleRepository;
+    private final UserService userService;
+    private final IUserRepository userRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootApp.class, args);
@@ -25,6 +27,20 @@ public class SpringBootApp {
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        Role role = roleRepository.save(
+                Role.builder()
+                        .name("USER")
+                        .build()
+        );
+
+
+        User user = userRepository.save(
+                User.builder()
+                        .username("Davy")
+                        .password(userService.hashPassword("password"))
+                        .role(role)
+                        .build()
+        );
 
         Product product = productRepository.save(
                 Product.builder()
