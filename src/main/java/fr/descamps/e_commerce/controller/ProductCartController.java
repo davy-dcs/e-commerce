@@ -19,9 +19,10 @@ public class ProductCartController {
         return ResponseEntity.ok(productCartService.updateQuantity(productCartRequest));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteProduct(@RequestBody ProductCartUuidRequest productCartUuidRequest) {
-        return ResponseEntity.ok(productCartService.deleteProduct(productCartUuidRequest));
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteProduct(@RequestBody ProductCartUuidRequest productCartUuidRequest) {
+        productCartService.deleteProduct(productCartUuidRequest);
+        return ResponseEntity.ok().build();
     }
 
 }

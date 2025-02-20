@@ -11,5 +11,4 @@ import java.util.UUID;
 public interface IProductCartRepository extends JpaRepository<ProductCart, Long> {
     Optional<ProductCart> findByUuid(UUID uuid);
 
-    Boolean deleteByUuid(UUID uuid);
 }

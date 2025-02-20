@@ -1,6 +1,5 @@
 package fr.descamps.e_commerce.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +26,8 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
-    @OneToMany
-    private List<ProductCart> products;
+    @OneToMany(mappedBy = "cart")
+    private List<ProductCart> productCarts;
 
     @PrePersist
     private void prePersist() {

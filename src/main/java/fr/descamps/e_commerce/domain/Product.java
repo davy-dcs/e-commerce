@@ -27,7 +27,7 @@ public class Product {
     private String image;
 
     @Enumerated(EnumType.STRING)
-    private ProductPaymentTerms PaymentTerms;
+    private ProductPaymentTerms paymentTerms;
 
     @Enumerated(EnumType.STRING)
     private ProductType type;

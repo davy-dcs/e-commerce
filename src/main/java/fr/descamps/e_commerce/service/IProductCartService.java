@@ -6,5 +6,5 @@ import fr.descamps.e_commerce.dto.ProductCartUuidRequest;
 
 public interface IProductCartService {
     ProductCartResponse updateQuantity(ProductCartRequest productCartRequest);
-    Boolean deleteProduct(ProductCartUuidRequest productCartUuidRequest);
+    void deleteProduct(ProductCartUuidRequest productCartUuidRequest);
 }

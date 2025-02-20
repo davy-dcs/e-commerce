@@ -25,8 +25,8 @@ public class ProductCartServiceImpl implements IProductCartService {
     }
 
     @Override
-    public Boolean deleteProduct(ProductCartUuidRequest productCartUuidRequest) {
+    public void deleteProduct(ProductCartUuidRequest productCartUuidRequest) {
         ProductCart productCart = productCartRepository.findByUuid(productCartUuidRequest.uuid()).orElseThrow(() -> new ProductCartNotFoundException("ProductCart not found by uuid"));
-        return productCartRepository.deleteByUuid(productCart.getUuid());
+        productCartRepository.delete(productCart);
     }
 }

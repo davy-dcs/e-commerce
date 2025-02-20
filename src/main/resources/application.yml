@@ -14,5 +14,13 @@ spring:
         show_sql: true
         format_sql: true
     database: postgresql
+server:
   servlet:
-    context-path: "/api"
+    context-path: /api
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
