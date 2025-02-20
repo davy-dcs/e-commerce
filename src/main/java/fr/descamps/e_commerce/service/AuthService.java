@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
@@ -22,7 +23,7 @@ import javax.management.relation.RoleNotFoundException;
 public class AuthService {
     private final IRoleRepository roleRepository;
     private final IUserRepository userRepository;
-    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authManager;
 
     public User register(RegisterRequest registerRequest) throws RoleNotFoundException {
@@ -31,18 +32,16 @@ public class AuthService {
         return userRepository.save(
                 User.builder()
                     .username(registerRequest.username())
-                    .password(userService.hashPassword(registerRequest.password()))
+                    .password(passwordEncoder.encode(registerRequest.password()))
                     .role(role)
                     .build()
         );
     }
 
     public AuthResponse authenticate(AuthRequest authRequest) {
-        log.info("authRequest : " + authRequest);
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password())
         );
-        log.info("auth : " + auth);
         return new AuthResponse(auth.getName());
     }
 }

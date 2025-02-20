@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @SpringBootApplication
@@ -18,7 +19,7 @@ public class SpringBootApp {
     private final ICartRepository cartRepository;
     private final IProductCartRepository productCartRepository;
     private final IRoleRepository roleRepository;
-    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
     private final IUserRepository userRepository;
 
     public static void main(String[] args) {
@@ -37,7 +38,7 @@ public class SpringBootApp {
         User user = userRepository.save(
                 User.builder()
                         .username("Davy")
-                        .password(userService.hashPassword("password"))
+                        .password(passwordEncoder.encode("password"))
                         .role(role)
                         .build()
         );
@@ -55,6 +56,7 @@ public class SpringBootApp {
         Cart cart = cartRepository.save(
                 Cart.builder()
                         .status(CartStatus.PENDING)
+                        .user(user)
                         .build()
         );
 

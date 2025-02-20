@@ -26,6 +26,10 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToMany(mappedBy = "cart")
     private List<ProductCart> productCarts;
 
