@@ -1,5 +1,6 @@
 package fr.descamps.e_commerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 

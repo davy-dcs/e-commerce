@@ -64,7 +64,7 @@ public class SpringBootApp {
                 ProductCart.builder()
                         .cart(cart)
                         .product(product)
-                        .quantity(3)
+                        .quantity(3.0)
                         .build()
         );
 

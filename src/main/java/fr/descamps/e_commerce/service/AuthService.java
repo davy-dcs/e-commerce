@@ -8,7 +8,6 @@ import fr.descamps.e_commerce.dto.RegisterRequest;
 import fr.descamps.e_commerce.repository.IRoleRepository;
 import fr.descamps.e_commerce.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthService {

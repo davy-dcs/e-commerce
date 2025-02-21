@@ -2,9 +2,8 @@ package fr.descamps.e_commerce.dto;
 
 import java.util.UUID;
 
-public record ProductCartResponse(
+public record ProductCartQuantityRequest(
         UUID uuid,
-        ProductResponse product,
         Double quantity
 ) {
 }

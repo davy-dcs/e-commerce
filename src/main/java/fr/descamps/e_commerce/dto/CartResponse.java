@@ -10,6 +10,6 @@ public record CartResponse(
         UUID uuid,
         LocalDate date,
         CartStatus status,
-        List<ProductCartResponse> products
+        List<ProductCartResponse> productCarts
 ) {
 }

@@ -1,5 +1,6 @@
 package fr.descamps.e_commerce.service.impl;
 
+import fr.descamps.e_commerce.domain.Product;
 import fr.descamps.e_commerce.domain.ProductType;
 import fr.descamps.e_commerce.dto.ProductResponse;
 import fr.descamps.e_commerce.dto.ProductTypeRequest;
@@ -30,5 +31,10 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findByReference(reference)
                 .map(productMapper::productToProductResponse)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found by reference"));
+    }
+
+    @Override
+    public Product getByRef(String reference) {
+        return productRepository.findByReference(reference).orElseThrow(() -> new ProductNotFoundException("Product not found by reference"));
     }
 }

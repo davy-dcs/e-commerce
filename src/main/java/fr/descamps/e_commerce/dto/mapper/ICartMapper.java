@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 public interface ICartMapper {
     ICartMapper INSTANCE = Mappers.getMapper(ICartMapper.class);
 
+    @Mapping(source = "productCarts", target = "productCarts")
     CartResponse cartToCartResponse(Cart cart);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

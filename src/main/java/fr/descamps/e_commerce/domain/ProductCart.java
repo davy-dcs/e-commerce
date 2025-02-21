@@ -1,5 +1,6 @@
 package fr.descamps.e_commerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,9 +27,10 @@ public class ProductCart {
 
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
+    @JsonIgnore
     private Cart cart;
 
-    private Integer quantity;
+    private Double quantity;
 
     @PrePersist
     private void prePersist() {
