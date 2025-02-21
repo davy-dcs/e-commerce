@@ -18,6 +18,8 @@ import fr.descamps.e_commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ProductCartServiceImpl implements IProductCartService {
@@ -30,15 +32,31 @@ public class ProductCartServiceImpl implements IProductCartService {
     public ProductCartResponse create(User user, ProductCartRequest productCartRequest) {
         Product p = productService.getByRef(productCartRequest.productReference());
         Cart c = cartService.getPending(user);
-        return productCartMapper.productToProductCartResponse(
-                productCartRepository.save(
-                        ProductCart.builder()
-                                .product(p)
-                                .cart(c)
-                                .quantity(productCartRequest.quantity())
-                                .build()
-                )
-        );
+
+        if (containProduct(c.getProductCarts(), p)) {
+            ProductCart productCart = productCartRepository.findByProduct_ReferenceAndCart_Uuid(productCartRequest.productReference(), c.getUuid()).orElseThrow(() -> new ProductCartNotFoundException("Product Cart not found by product reference and cart uuid"));
+            productCart.setQuantity(productCart.getQuantity() + productCartRequest.quantity());
+            return productCartMapper.productToProductCartResponse(productCartRepository.save(productCart));
+        } else {
+            return productCartMapper.productToProductCartResponse(
+                    productCartRepository.save(
+                            ProductCart.builder()
+                                    .product(p)
+                                    .cart(c)
+                                    .quantity(productCartRequest.quantity())
+                                    .build()
+                    )
+            );
+        }
+    }
+
+    private Boolean containProduct(List<ProductCart> productCarts, Product product) {
+        for (ProductCart productCart : productCarts) {
+            if (productCart.getProduct().equals(product)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -47,9 +65,10 @@ public class ProductCartServiceImpl implements IProductCartService {
         if (productCartQuantityRequest.quantity() > 0) {
             productCartMapper.updateProductCart(productCartQuantityRequest, productCart);
             return productCartMapper.productToProductCartResponse(productCart);
+        } else {
+            deleteProduct(new ProductCartUuidRequest(productCartQuantityRequest.uuid()));
+            return null;
         }
-        deleteProduct(new ProductCartUuidRequest(productCartQuantityRequest.uuid()));
-        return null;
     }
 
     @Override
