@@ -11,4 +11,5 @@ public interface IProductService {
     List<ProductResponse> getAll(ProductTypeRequest productType);
     ProductResponse getByReference(String reference);
     Product getByRef(String reference);
+    List<ProductType> getTypes();
 }

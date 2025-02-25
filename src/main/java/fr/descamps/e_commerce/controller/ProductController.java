@@ -16,7 +16,12 @@ import java.util.List;
 public class ProductController {
     private final IProductService productService;
 
-    @GetMapping
+    @GetMapping("/types")
+    public ResponseEntity<List<ProductType>> getTypes() {
+        return ResponseEntity.ok(productService.getTypes());
+    }
+
+    @PostMapping
     public ResponseEntity<List<ProductResponse>> getAll(@RequestBody ProductTypeRequest productType) {
         return ResponseEntity.ok(productService.getAll(productType));
     }

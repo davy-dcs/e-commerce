@@ -7,18 +7,17 @@ import fr.descamps.e_commerce.domain.User;
 import fr.descamps.e_commerce.dto.ProductCartQuantityRequest;
 import fr.descamps.e_commerce.dto.ProductCartRequest;
 import fr.descamps.e_commerce.dto.ProductCartResponse;
-import fr.descamps.e_commerce.dto.ProductCartUuidRequest;
 import fr.descamps.e_commerce.dto.mapper.IProductCartMapper;
 import fr.descamps.e_commerce.exception.ProductCartNotFoundException;
 import fr.descamps.e_commerce.repository.IProductCartRepository;
 import fr.descamps.e_commerce.service.ICartService;
 import fr.descamps.e_commerce.service.IProductCartService;
 import fr.descamps.e_commerce.service.IProductService;
-import fr.descamps.e_commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -60,20 +59,19 @@ public class ProductCartServiceImpl implements IProductCartService {
     }
 
     @Override
-    public ProductCartResponse updateQuantity(ProductCartQuantityRequest productCartQuantityRequest) {
+    public void updateQuantity(ProductCartQuantityRequest productCartQuantityRequest) {
         ProductCart productCart = productCartRepository.findByUuid(productCartQuantityRequest.uuid()).orElseThrow(() -> new ProductCartNotFoundException("ProductCart not found by uuid"));
         if (productCartQuantityRequest.quantity() > 0) {
-            productCartMapper.updateProductCart(productCartQuantityRequest, productCart);
-            return productCartMapper.productToProductCartResponse(productCart);
+            productCart.setQuantity(productCartQuantityRequest.quantity());
+            productCartRepository.save(productCart);
         } else {
-            deleteProduct(new ProductCartUuidRequest(productCartQuantityRequest.uuid()));
-            return null;
+            deleteProduct(productCart.getUuid());
         }
     }
 
     @Override
-    public void deleteProduct(ProductCartUuidRequest productCartUuidRequest) {
-        ProductCart productCart = productCartRepository.findByUuid(productCartUuidRequest.uuid()).orElseThrow(() -> new ProductCartNotFoundException("ProductCart not found by uuid"));
+    public void deleteProduct(UUID uuid) {
+        ProductCart productCart = productCartRepository.findByUuid(uuid).orElseThrow(() -> new ProductCartNotFoundException("ProductCart not found by uuid"));
         productCartRepository.delete(productCart);
     }
 }

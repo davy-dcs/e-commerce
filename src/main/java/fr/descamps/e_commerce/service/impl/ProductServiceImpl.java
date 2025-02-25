@@ -37,4 +37,9 @@ public class ProductServiceImpl implements IProductService {
     public Product getByRef(String reference) {
         return productRepository.findByReference(reference).orElseThrow(() -> new ProductNotFoundException("Product not found by reference"));
     }
+
+    @Override
+    public List<ProductType> getTypes() {
+        return List.of(ProductType.values());
+    }
 }
