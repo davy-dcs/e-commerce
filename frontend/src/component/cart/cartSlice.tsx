@@ -12,6 +12,15 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
     return response.data;
 });
 
+// Action pour modifier le status du panier (PUT)
+export const updateStatus = createAsyncThunk(
+    "cart/updateStatus",
+    async (cartRequest: { uuid: string; status: string }, { dispatch }) => {
+        await axios.put("http://localhost:8080/api/v1/carts", cartRequest, {auth});
+        dispatch(fetchCart()); // Recharger le panier après ajout
+    }
+);
+
 // Action pour ajouter un produit (POST)
 export const addToCart = createAsyncThunk(
     "cart/addToCart",

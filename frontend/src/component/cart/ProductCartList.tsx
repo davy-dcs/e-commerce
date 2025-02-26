@@ -31,7 +31,7 @@ const ProductCartList: React.FC = () => {
                                 "/kg"
                             )}</p>
                             <ProductCartQuantity quantity={product.quantity} uuid={product.uuid} />
-                            <p className={"m-auto font-medium text-gray-500"}>{product.product.price * product.quantity}</p>
+                            <p className={"m-auto font-medium text-gray-500"}>{parseFloat(String(product.product.price * product.quantity)).toFixed(2)}</p>
                             <button onClick={() => dispatch(deleteProductCart(product.uuid))}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10 cursor-pointer fill-red-400 hover:fill-red-600 stroke-white">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -39,7 +39,9 @@ const ProductCartList: React.FC = () => {
                             </button>
                         </React.Fragment>
                     ))
-                     : null
+                     : (
+                         <p>Votre panier est vide</p>
+                )
             }
         </div>
     )

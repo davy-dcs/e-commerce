@@ -33,8 +33,8 @@ public class CartServiceImpl implements ICartService {
     public CartResponse updateStatus(CartRequest cartRequest) {
         Cart cart = cartRepository.findByUuid(cartRequest.uuid()).orElseThrow(() -> new CartNotFoundException("Cart not found by uuid"));
         cartMapper.updateCart(cartRequest, cart);
-        Cart cartSaved = cartRepository.save(cart);
-        return cartMapper.cartToCartResponse(cartSaved);
+        cartRepository.save(cart);
+        return getPendingOrNew(cart.getUser());
     }
 
     @Override
